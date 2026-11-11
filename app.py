@@ -1,4 +1,4 @@
-import json
+import yaml
 import os
 import pathlib
 
@@ -7,13 +7,13 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 app.json.ensure_ascii = False
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 BASE_DIR = pathlib.Path(__file__).parent
 
 
 def load_monsters():
-    path = BASE_DIR / "data" / "monsters.json"
-    return json.loads(path.read_text(encoding="utf-8"))
+    path = BASE_DIR / "data" / "monsters.yaml"
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
 @app.route("/")
@@ -50,3 +50,4 @@ def monster_detail(monster_id):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5001"))
     app.run(port=port)
+
